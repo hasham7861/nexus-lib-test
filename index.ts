@@ -1,39 +1,30 @@
-import { queryType, stringArg, makeSchema, nonNull, mutationType } from 'nexus'
+import { makeSchema } from 'nexus'
 import { createServer } from 'http'
 import { createYoga } from 'graphql-yoga'
+import requireAll from 'require-all'
 
-
-const Query = queryType({
-  definition(t) {
-    t.string('hello', {
-      args: { name: nonNull(stringArg()) },
-      resolve: (parent, { name }) => `Hello ${name || 'World'}!`,
-    })
-  },
+const queries = requireAll({
+  dirname: __dirname + '/graphql/queries',
+  filter: /^(.+)\.ts$/,
+  recursive: true,
 })
 
-const mockMutateMethod = (name: string) => {
-  console.log(`Goodbye ${name}`)
-  return "Goodbye is sent"
-}
-
-const Mutation = mutationType({
-  definition(t){
-    t.string('sayGoodbye', {
-      args: { name: nonNull(stringArg()) },
-      resolve: (parent, { name }) => mockMutateMethod(name),
-    })
-  }
+const mutations = requireAll({
+  dirname: __dirname + '/graphql/mutations',
+  filter: /^(.+)\.ts$/,
+  recursive: true,
 })
+
+
+const types = [...Object.values(queries), ...Object.values(mutations)]
 
 const schema = makeSchema({
-  types: [Query, Mutation],
+  types,
   outputs: {
-    schema: __dirname + '/generated/schema.graphql',
-    typegen: __dirname + '/generated/typings.ts',
+    schema: __dirname + '/nexus/generated/schema.graphql',
+    typegen: __dirname + '/nexus/generated/typings.ts',
   },
 })
-
 
 const yoga = createYoga({ schema })
 
