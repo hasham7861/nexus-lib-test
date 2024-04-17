@@ -1,11 +1,7 @@
-import { queryType, stringArg, makeSchema, nonNull } from 'nexus'
-import { createServer } from 'node:http'
+import { queryType, stringArg, makeSchema, nonNull, mutationType } from 'nexus'
+import { createServer } from 'http'
 import { createYoga } from 'graphql-yoga'
-import { fileURLToPath } from 'url';
-import { dirname } from 'path';
 
-const __filename = fileURLToPath(import.meta.url);
-const __dirname = dirname(__filename);
 
 const Query = queryType({
   definition(t) {
@@ -16,13 +12,28 @@ const Query = queryType({
   },
 })
 
+const mockMutateMethod = (name: string) => {
+  console.log(`Goodbye ${name}`)
+  return "Goodbye is sent"
+}
+
+const Mutation = mutationType({
+  definition(t){
+    t.string('sayGoodbye', {
+      args: { name: nonNull(stringArg()) },
+      resolve: (parent, { name }) => mockMutateMethod(name),
+    })
+  }
+})
+
 const schema = makeSchema({
-  types: [Query],
+  types: [Query, Mutation],
   outputs: {
     schema: __dirname + '/generated/schema.graphql',
     typegen: __dirname + '/generated/typings.ts',
   },
 })
+
 
 const yoga = createYoga({ schema })
 

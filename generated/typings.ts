@@ -28,6 +28,7 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Mutation: {};
   Query: {};
 }
 
@@ -42,18 +43,29 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Mutation: { // field return type
+    sayGoodbye: string | null; // String
+  }
   Query: { // field return type
     hello: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Mutation: { // field return type name
+    sayGoodbye: 'String'
+  }
   Query: { // field return type name
     hello: 'String'
   }
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    sayGoodbye: { // args
+      name: string; // String!
+    }
+  }
   Query: {
     hello: { // args
       name: string; // String!
