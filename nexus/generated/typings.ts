@@ -28,6 +28,12 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  BlogPost: { // root type
+    content?: string | null; // String
+    id?: number | null; // Int
+    published?: string | null; // String
+    title?: string | null; // String
+  }
   Mutation: {};
   Query: {};
 }
@@ -43,19 +49,33 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  BlogPost: { // field return type
+    content: string | null; // String
+    id: number | null; // Int
+    published: string | null; // String
+    title: string | null; // String
+  }
   Mutation: { // field return type
     sayGoodbye: string | null; // String
   }
   Query: { // field return type
+    blogPosts: Array<NexusGenRootTypes['BlogPost'] | null> | null; // [BlogPost]
     hello: string | null; // String
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  BlogPost: { // field return type name
+    content: 'String'
+    id: 'Int'
+    published: 'String'
+    title: 'String'
+  }
   Mutation: { // field return type name
     sayGoodbye: 'String'
   }
   Query: { // field return type name
+    blogPosts: 'BlogPost'
     hello: 'String'
   }
 }

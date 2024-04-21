@@ -2,10 +2,18 @@
 ### Do not make changes to this file directly
 
 
+type BlogPost {
+  content: String
+  id: Int
+  published: String
+  title: String
+}
+
 type Mutation {
   sayGoodbye(name: String!): String
 }
 
 type Query {
+  blogPosts: [BlogPost]
   hello(name: String!): String
 }

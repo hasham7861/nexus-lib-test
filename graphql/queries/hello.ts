@@ -1,6 +1,7 @@
-import { nonNull, queryType, stringArg } from "nexus"
+import { nonNull, extendType, stringArg } from "nexus"
 
-export default queryType({
+export default extendType({
+    type: 'Query',
     definition(t) {
       t.string('hello', {
         args: { name: nonNull(stringArg()) },
