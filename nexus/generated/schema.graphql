@@ -9,11 +9,6 @@ type BlogPost {
   title: String
 }
 
-type Mutation {
-  sayGoodbye(name: String!): String
-}
-
 type Query {
-  blogPosts: [BlogPost]
-  hello(name: String!): String
+  blogPosts(name: String): [BlogPost]
 }

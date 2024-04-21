@@ -34,7 +34,6 @@ export interface NexusGenObjects {
     published?: string | null; // String
     title?: string | null; // String
   }
-  Mutation: {};
   Query: {};
 }
 
@@ -55,12 +54,8 @@ export interface NexusGenFieldTypes {
     published: string | null; // String
     title: string | null; // String
   }
-  Mutation: { // field return type
-    sayGoodbye: string | null; // String
-  }
   Query: { // field return type
     blogPosts: Array<NexusGenRootTypes['BlogPost'] | null> | null; // [BlogPost]
-    hello: string | null; // String
   }
 }
 
@@ -71,24 +66,15 @@ export interface NexusGenFieldTypeNames {
     published: 'String'
     title: 'String'
   }
-  Mutation: { // field return type name
-    sayGoodbye: 'String'
-  }
   Query: { // field return type name
     blogPosts: 'BlogPost'
-    hello: 'String'
   }
 }
 
 export interface NexusGenArgTypes {
-  Mutation: {
-    sayGoodbye: { // args
-      name: string; // String!
-    }
-  }
   Query: {
-    hello: { // args
-      name: string; // String!
+    blogPosts: { // args
+      name?: string | null; // String
     }
   }
 }

@@ -1,26 +1,23 @@
-import { extendType } from "nexus";
+import { extendType, stringArg } from "nexus";
 import BlogPost from "../objects/blogPost";
+import { IPost, db } from "../../data";
+
 
 export default extendType({
     type: 'Query',
     definition(t) {
         t.list.field('blogPosts', {
             type: BlogPost,
-            resolve:  async (_parent, _args) => {
-                return [
-                    {
-                        id: 1,
-                        title: "Post 1",
-                        content: "This is just the content of the post",
-                        publish: "2023-01-01"
-                    },
-                    {
-                        id: 2,
-                        title: "Post 2",
-                        content: "This is just the content of the post",
-                        publish: "2023-01-02"
-                    }
-                ];
+            args: {
+                name: stringArg(),
+            },
+            resolve:  async (_parent, args) => {
+                const {name} = args;
+                if(name && name.length > 0) {
+                    return [db.getPost(name) as IPost]
+                }
+                    
+                return db.getPosts();
             },
         });
     },
