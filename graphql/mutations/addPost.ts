@@ -12,18 +12,20 @@ export default extendType({
                 title: nonNull(stringArg()),
                 published: nonNull(stringArg()),
                 content: nonNull(stringArg()),
-                authorId: nonNull(intArg())
             },
-            resolve: (_parent, args) => {
+            resolve: (_parent, args, context) => {
                 const post = {
                     title: args.title,
                     id: args.id,
                     published: args.published,
                     content: args.content,
-                    authorId: args.authorId
                 };
 
-                db.addPost(post)
+                db.addPost(post);
+
+                // send realtime update to subscription
+                context.pubsub.publish('POST_ADDED', post);
+                
                 return post;
             }
         })

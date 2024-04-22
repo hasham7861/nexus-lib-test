@@ -16,11 +16,15 @@ type BlogPost {
 }
 
 type Mutation {
-  addPost(authorId: Int!, content: String!, id: Int!, published: String!, title: String!): BlogPost
+  addPost(content: String!, id: Int!, published: String!, title: String!): BlogPost
   deletePost(id: Int!): Boolean
 }
 
 type Query {
   blogPosts(name: String): [BlogPost]
   blogPostsCount: Int
+}
+
+type Subscription {
+  postAdded: BlogPost
 }

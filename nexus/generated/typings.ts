@@ -40,6 +40,7 @@ export interface NexusGenObjects {
   }
   Mutation: {};
   Query: {};
+  Subscription: {};
 }
 
 export interface NexusGenInterfaces {
@@ -72,6 +73,9 @@ export interface NexusGenFieldTypes {
     blogPosts: Array<NexusGenRootTypes['BlogPost'] | null> | null; // [BlogPost]
     blogPostsCount: number | null; // Int
   }
+  Subscription: { // field return type
+    postAdded: NexusGenRootTypes['BlogPost'] | null; // BlogPost
+  }
 }
 
 export interface NexusGenFieldTypeNames {
@@ -94,12 +98,14 @@ export interface NexusGenFieldTypeNames {
     blogPosts: 'BlogPost'
     blogPostsCount: 'Int'
   }
+  Subscription: { // field return type name
+    postAdded: 'BlogPost'
+  }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
     addPost: { // args
-      authorId: number; // Int!
       content: string; // String!
       id: number; // Int!
       published: string; // String!
