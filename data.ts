@@ -4,7 +4,7 @@ export interface IPost  {
     id: number;
     title: string;
     content: string;
-    publish: string;
+    published: string;
 }
 
 class DB {
@@ -13,13 +13,13 @@ class DB {
             id: 1,
             title: "Post 1",
             content: "This is just the content of the post",
-            publish: "2023-01-01"
+            published: "2023-01-01"
         },
         {
             id: 2,
             title: "Post 2",
             content: "This is just the content of the post",
-            publish: "2023-01-02"
+            published: "2023-01-02"
         }
     ] as IPost[];
 
@@ -39,8 +39,19 @@ class DB {
         this.posts.push(post);
     }
 
-    deletePost(post: IPost): void {
-        this.posts = this.posts.filter(p => p.id !== post.id);
+    deletePost(postId: number): boolean {
+        
+        let newPosts = [];
+        let isPostDeleted = false;
+        for (let post of this.posts) {
+            if(post.id !== postId){
+                newPosts.push(post);
+                isPostDeleted = true;
+            }
+        }
+        this.posts = newPosts;
+        return isPostDeleted;
+
     }
 }
 

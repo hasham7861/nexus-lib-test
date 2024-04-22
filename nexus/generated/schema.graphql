@@ -9,6 +9,11 @@ type BlogPost {
   title: String
 }
 
+type Mutation {
+  addPost(content: String!, id: Int!, published: String!, title: String!): BlogPost
+  deletePost(id: Int!): Boolean
+}
+
 type Query {
   blogPosts(name: String): [BlogPost]
 }
