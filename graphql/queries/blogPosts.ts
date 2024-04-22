@@ -19,6 +19,12 @@ export default extendType({
                     
                 return db.getPosts();
             },
+        })
+        t.int('blogPostsCount', {
+            resolve: () => {
+                const posts = db.getPosts();
+                return posts.length;
+            },
         });
     },
 });

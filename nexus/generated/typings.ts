@@ -28,9 +28,13 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Author: { // root type
+    id: number; // Int!
+    name: string; // String!
+  }
   BlogPost: { // root type
     content?: string | null; // String
-    id?: number | null; // Int
+    id: number; // Int!
     published?: string | null; // String
     title?: string | null; // String
   }
@@ -49,9 +53,14 @@ export type NexusGenRootTypes = NexusGenObjects
 export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
 
 export interface NexusGenFieldTypes {
+  Author: { // field return type
+    id: number; // Int!
+    name: string; // String!
+  }
   BlogPost: { // field return type
+    author: NexusGenRootTypes['Author'] | null; // Author
     content: string | null; // String
-    id: number | null; // Int
+    id: number; // Int!
     published: string | null; // String
     title: string | null; // String
   }
@@ -61,11 +70,17 @@ export interface NexusGenFieldTypes {
   }
   Query: { // field return type
     blogPosts: Array<NexusGenRootTypes['BlogPost'] | null> | null; // [BlogPost]
+    blogPostsCount: number | null; // Int
   }
 }
 
 export interface NexusGenFieldTypeNames {
+  Author: { // field return type name
+    id: 'Int'
+    name: 'String'
+  }
   BlogPost: { // field return type name
+    author: 'Author'
     content: 'String'
     id: 'Int'
     published: 'String'
@@ -77,12 +92,14 @@ export interface NexusGenFieldTypeNames {
   }
   Query: { // field return type name
     blogPosts: 'BlogPost'
+    blogPostsCount: 'Int'
   }
 }
 
 export interface NexusGenArgTypes {
   Mutation: {
     addPost: { // args
+      authorId: number; // Int!
       content: string; // String!
       id: number; // Int!
       published: string; // String!

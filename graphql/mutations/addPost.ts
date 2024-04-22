@@ -11,14 +11,16 @@ export default extendType({
                 id: nonNull(intArg()),
                 title: nonNull(stringArg()),
                 published: nonNull(stringArg()),
-                content: nonNull(stringArg())
+                content: nonNull(stringArg()),
+                authorId: nonNull(intArg())
             },
             resolve: (_parent, args) => {
                 const post = {
                     title: args.title,
                     id: args.id,
                     published: args.published,
-                    content: args.content
+                    content: args.content,
+                    authorId: args.authorId
                 };
 
                 db.addPost(post)

@@ -7,21 +7,40 @@ export interface IPost  {
     published: string;
 }
 
+export interface IAuthor {
+    id: number,
+    name: string,
+    posts: number []
+}
+
 class DB {
     posts = [
         {
             id: 1,
             title: "Post 1",
             content: "This is just the content of the post",
-            published: "2023-01-01"
+            published: "2023-01-01",
         },
         {
             id: 2,
             title: "Post 2",
             content: "This is just the content of the post",
-            published: "2023-01-02"
+            published: "2023-01-02",
         }
     ] as IPost[];
+
+    authors = [
+        {
+            id: 3,
+            name: "hasham",
+            posts: [1]
+        },
+        {
+            id: 4,
+            name: "bobby",
+            posts: [2]
+        }
+    ] as IAuthor[];
 
     constructor () {
         
@@ -31,8 +50,37 @@ class DB {
         return this.posts;
     }
 
+    getAuthor(id: number ): IAuthor | undefined {
+        return this.authors.find(author => author.id === id);
+    }
+
+    getAuthorForPost(postName: string): IAuthor | null {
+        const author = this.authors.find(author => {
+            const postIds = author.posts
+            for(let id of postIds){
+                const post = this.getPostById(id);
+                if(post?.title === postName){
+                    return true;
+                }
+            }
+
+            return false;
+
+        });
+
+        if(!author){
+            return null;
+        }
+
+        return author;
+    }
+
     getPost(name: string): IPost | undefined {
         return this.posts.find(post => post.title === name);
+    }
+
+    getPostById(id: number): IPost | undefined {
+        return this.posts.find(post => post.id === id);
     }
 
     addPost(post: IPost): void {
