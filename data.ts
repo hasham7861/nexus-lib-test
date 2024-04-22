@@ -55,6 +55,7 @@ class DB {
     }
 
     getAuthorForPost(postName: string): IAuthor | null {
+        console.log("query is running n many times")
         const author = this.authors.find(author => {
             const postIds = author.posts
             for(let id of postIds){
@@ -74,6 +75,23 @@ class DB {
 
         return author;
     }
+
+    getAuthorsForPosts(postTitles: readonly string []): IAuthor [] {
+        // Cache posts metadata incase multiple authors contributed to same post
+        const postTitleSet = new Set(postTitles);
+
+        // Assume this is just one database query that runs once
+        const authors = this.authors.filter(author => {
+            return author.posts.some(postId => {
+                const post = this.getPostById(postId);
+                return post && postTitleSet.has(post.title);
+            });
+        });
+
+        return authors;
+   
+    }
+
 
     getPost(name: string): IPost | undefined {
         return this.posts.find(post => post.title === name);

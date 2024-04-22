@@ -1,6 +1,5 @@
 import { objectType } from "nexus";
 import author from "./author";
-import { db } from "../../data";
 
 const BlogPost = objectType({
     name: "BlogPost",
@@ -11,8 +10,7 @@ const BlogPost = objectType({
         t.string("published"),
         t.field("author", {
             type: author,
-            resolve: (parent) => {
-                console.log("n query ran on top of main query")
+            resolve: (parent, args, context) => {
 
                 const postTitle = parent.title;
                 
@@ -20,15 +18,8 @@ const BlogPost = objectType({
                     return null;
                 }
 
-                try {
-                    const postAuthor = db.getAuthorForPost(postTitle);
-                    return postAuthor;
-                } catch (error) {
-                    console.error(error);
-                    return null;
-                }
+                return context.loaders.authorLoader.load(postTitle);
 
-                
             }
         })
     },

@@ -2,6 +2,7 @@ import { makeSchema } from 'nexus'
 import { createServer } from 'http'
 import { createYoga } from 'graphql-yoga'
 import requireAll from 'require-all'
+import loaders from "./graphql/dataLoaders/loaders"
 
 const queries = requireAll({
   dirname: __dirname + '/graphql/queries',
@@ -26,7 +27,16 @@ const schema = makeSchema({
   },
 })
 
-const yoga = createYoga({ schema })
+
+
+
+
+const yoga = createYoga({ schema,
+  context: req => ({
+    ...req,
+    loaders
+  }),
+ })
 
 const server = createServer(yoga)
 
